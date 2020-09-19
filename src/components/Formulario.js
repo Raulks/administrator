@@ -1,113 +1,128 @@
 import React, { Fragment, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
 
-const Formulario = () => {
-  // State for meetings
-
-  const [meeting, upgradeMeeting] = useState({
-    pet: "",
-    owner: "",
-    date: "",
-    time: "",
-    symptoms: "",
+const Formulario = ({ crearCita }) => {
+  // Crear State de Citas
+  const [cita, actualizarCita] = useState({
+    mascota: "",
+    propietario: "",
+    fecha: "",
+    hora: "",
+    sintomas: "",
   });
-  const [error, updatError] = useState(false);
+  const [error, actualizarError] = useState(false);
 
-  const handleChange = (e) =>
-    upgradeMeeting({
-      ...meeting,
+  // Función que se ejecuta cada que el usuario escribe en un input
+  const actualizarState = (e) => {
+    actualizarCita({
+      ...cita,
       [e.target.name]: e.target.value,
     });
+  };
 
-  //Extracting values
+  // Extraer los valores
+  const { mascota, propietario, fecha, hora, sintomas } = cita;
 
-  const { pet, owner, date, time, symptoms } = meeting;
-
-  // When press confirm
-
-  const submitMeeting = (e) => {
+  // Cuando el usuario presiona agregar cita
+  const submitCita = (e) => {
     e.preventDefault();
 
-    //Validate
+    // Validar
     if (
-      pet.trim() === "" ||
-      owner.trim() === "" ||
-      date.trim === "" ||
-      time.trim === "" ||
-      symptoms.trim === ""
+      mascota.trim() === "" ||
+      propietario.trim() === "" ||
+      fecha.trim() === "" ||
+      hora.trim() === "" ||
+      sintomas.trim() === ""
     ) {
-      updatError(true);
+      actualizarError(true);
       return;
     }
-    //delete error message
-    updatError(false);
-    
-    //id asigmnet
-    meeting.id = uuidv4();
-    console.log(meeting)
-    //create a meeting
+    // Eliminar el mensaje previo
+    actualizarError(false);
 
-    //restart form
+    //id asigmnet
+    cita.id = uuidv4();
+
+    // Crear la cita
+    crearCita(cita);
+
+    // Reiniciar el form
+    actualizarCita({
+      mascota: "",
+      propietario: "",
+      fecha: "",
+      hora: "",
+      sintomas: "",
+    });
   };
+
   return (
     <Fragment>
-      <h2>Create meeting</h2>
+      <h2>Make an Appointment</h2>
+
       {error ? (
-        <p className="alerta-error"> You must fill in all the fields</p>
+        <p className="alerta-error">You must fill in all fields!</p>
       ) : null}
-      <form onSubmit={submitMeeting}>
+
+      <form onSubmit={submitCita}>
         <label>Pet's name</label>
         <input
           type="text"
-          name="pet"
+          name="mascota"
           className="u-full-width"
-          placeholder="Name of your pet"
-          onChange={handleChange}
-          value={pet}
+          placeholder="Nombre Mascota"
+          onChange={actualizarState}
+          value={mascota}
         />
+
         <label>Owner's name</label>
         <input
           type="text"
-          name="owner"
+          name="propietario"
           className="u-full-width"
-          placeholder="Your name"
-          onChange={handleChange}
-          value={owner}
+          placeholder="Nombre  Dueño de la mascota"
+          onChange={actualizarState}
+          value={propietario}
         />
-        <label>When will we see you?</label>
+
+        <label>Date</label>
         <input
           type="date"
-          name="date"
+          name="fecha"
           className="u-full-width"
-          onChange={handleChange}
-          value={date}
+          onChange={actualizarState}
+          value={fecha}
         />
+
         <label>Time</label>
         <input
           type="time"
-          name="time"
+          name="hora"
           className="u-full-width"
-          onChange={handleChange}
-          value={time}
+          onChange={actualizarState}
+          value={hora}
         />
+
         <label>Symptoms</label>
         <textarea
           className="u-full-width"
-          name="symptoms"
-          placeholder="Tell us something about what happend"
-          onChange={handleChange}
-          value={symptoms}
+          name="sintomas"
+          onChange={actualizarState}
+          value={sintomas}
         ></textarea>
-        <button
-          type="submit"
-          className="u-full-width button-primary"
-          onChange={handleChange}
-        >
+
+        <button type="submit" className="u-full-width button-primary">
           Confirm
         </button>
       </form>
     </Fragment>
   );
+};
+
+Formulario.propTypes = {
+  crearCita: PropTypes.func.isRequired,
 };
 
 export default Formulario;
