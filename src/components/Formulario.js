@@ -72,7 +72,7 @@ const Formulario = ({ crearCita }) => {
           type="text"
           name="mascota"
           className="u-full-width"
-          placeholder="Nombre Mascota"
+          placeholder="Name of your pet"
           onChange={actualizarState}
           value={mascota}
         />
@@ -82,7 +82,7 @@ const Formulario = ({ crearCita }) => {
           type="text"
           name="propietario"
           className="u-full-width"
-          placeholder="Nombre  Dueño de la mascota"
+          placeholder="Your name"
           onChange={actualizarState}
           value={propietario}
         />
