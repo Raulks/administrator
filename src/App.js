@@ -3,7 +3,8 @@ import Formulario from './components/Formulario'
 function App() {
   return (
     <Fragment>
-      <h1>Administrator</h1>
+      <h1>Chariot Vet<img alt='dog' src="https://img.icons8.com/pastel-glyph/64/000000/dog--v2.png"/></h1>
+ 
 
       <div className="container">
         <div className="row">
